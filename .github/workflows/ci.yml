@@ -21,3 +21,6 @@ jobs:
 
       - name: Build and test
         run: mvn -B clean verify
+
+      - name: Build Docker image
+        run: docker build -t salesforce-integration-service:${{ github.sha }} .
