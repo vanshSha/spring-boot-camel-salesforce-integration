@@ -21,3 +21,8 @@ jobs:
 
       - name: Build and test
         run: mvn -B clean verify
+        env:
+          SALESFORCE_BASE_URL: "https://ci.example.invalid"
+          SALESFORCE_CLIENT_ID: "ci-test-client-id"
+          SALESFORCE_CLIENT_SECRET: "ci-test-client-secret"
+          SALESFORCE_API_VERSION: "v64.0"
