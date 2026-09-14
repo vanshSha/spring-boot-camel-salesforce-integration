@@ -28,5 +28,8 @@ jobs:
             -o opentelemetry-javaagent.jar \
             https://repo1.maven.org/maven2/io/opentelemetry/javaagent/opentelemetry-javaagent/2.31.1/opentelemetry-javaagent-2.31.1.jar
 
+      - name: Verify OpenTelemetry Java Agent
+        run: ls -lh opentelemetry-javaagent.jar
+
       - name: Build Docker image
         run: docker build -t salesforce-integration-service:${{ github.sha }} .
