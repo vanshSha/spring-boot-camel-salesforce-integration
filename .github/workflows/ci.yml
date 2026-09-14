@@ -22,5 +22,11 @@ jobs:
       - name: Build and test
         run: mvn -B clean verify
 
+      - name: Download OpenTelemetry Java Agent
+        run: |
+          curl -L \
+            -o opentelemetry-javaagent.jar \
+            https://repo1.maven.org/maven2/io/opentelemetry/javaagent/opentelemetry-javaagent/2.31.1/opentelemetry-javaagent-2.31.1.jar
+
       - name: Build Docker image
         run: docker build -t salesforce-integration-service:${{ github.sha }} .
