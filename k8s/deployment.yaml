@@ -23,7 +23,7 @@ spec:
       containers:
         - name: salesforce-integration-service
 
-          image: 608744602923.dkr.ecr.eu-north-1.amazonaws.com/salesforce-integration-service:1ea64dc870741a943638a6cdb09de4a57e2eb7a3
+          image: 608744602923.dkr.ecr.eu-north-1.amazonaws.com/salesforce-integration-service:e2515bac65c5d380594e48e5d8405912c598f7d6
           ports:
             - containerPort: 8080
 
