@@ -23,17 +23,31 @@ public class SalesForceService {
     @Value("${salesforce.client-secret}")
     private String clientSecret;
 
-    public SalesForceTokenResponse getAccessToken(){
-        return webClient.post()
-                .uri("/services/oauth2/token")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(
-                        BodyInserters.fromFormData("grant_type", "client_credentials")
-                                .with("client_id", clientId)
-                                .with("client_secret", clientSecret)
-                )
-                .retrieve()
-                .bodyToMono(SalesForceTokenResponse.class)
-                .block();
-    }
+    public SalesForceTokenResponse getAccessToken() {
+    return webClient.post()
+            .uri("/services/oauth2/token")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .body(
+                    BodyInserters.fromFormData("grant_type", "client_credentials")
+                            .with("client_id", clientId)
+                            .with("client_secret", clientSecret)
+            )
+            .retrieve()
+            .onStatus(
+                    status -> status.isError(),
+                    response -> response.bodyToMono(String.class)
+                            .map(body -> {
+                                System.err.println(
+                                        "Salesforce OAuth error [" +
+                                        response.statusCode() +
+                                        "]: " + body
+                                );
+                                return new RuntimeException(
+                                        "Salesforce OAuth failed: " + body
+                                );
+                            })
+            )
+            .bodyToMono(SalesForceTokenResponse.class)
+            .block();
+}
 }
