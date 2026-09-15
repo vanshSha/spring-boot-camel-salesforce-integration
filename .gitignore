@@ -36,3 +36,6 @@ build/
 
 # OpenTelemetry Java Agent
 opentelemetry-javaagent.jar
+
+# Kubernetes local secrets
+k8s/secret.local.yaml

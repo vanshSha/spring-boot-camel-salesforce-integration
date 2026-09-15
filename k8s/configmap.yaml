@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: salesforce-integration-config
+  namespace: salesforce-integration
+data:
+  SALESFORCE_BASE_URL: "https://orgfarm-c796dc6e9a-dev-ed.develop.my.salesforce.com"
+  SALESFORCE_API_VERSION: "v64.0"

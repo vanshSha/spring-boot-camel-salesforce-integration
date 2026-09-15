@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: salesforce-integration-service
+  namespace: salesforce-integration
+spec:
+  selector:
+    app: salesforce-integration-service
+
+  ports:
+    - port: 80
+      targetPort: 8080
+
+  type: ClusterIP

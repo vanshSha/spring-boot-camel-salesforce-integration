@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salesforce-integration-service
+  namespace: salesforce-integration
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: salesforce-integration-service
+
+  template:
+    metadata:
+      labels:
+        app: salesforce-integration-service
+
+    spec:
+      imagePullSecrets:
+        - name: ecr-registry-secret
+
+      containers:
+        - name: salesforce-integration-service
+
+          image: 608744602923.dkr.ecr.eu-north-1.amazonaws.com/salesforce-integration-service:97ba8eb307a10e04b04366649da1b97bc35f707f
+
+          ports:
+            - containerPort: 8080
+
+          env:
+            - name: OTEL_SDK_DISABLED
+              value: "true"
+
+          envFrom:
+            - configMapRef:
+                name: salesforce-integration-config
+            - secretRef:
+                name: salesforce-integration-secret
+                
+
+          startupProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 12
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 15
